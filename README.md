@@ -16,7 +16,7 @@
 <div align="center">
   <h3>PKCE Auth Workflow</h3>
   <p>
-    PKCE is client-side CSRF like token to prevent token hijack attacks.
+    PKCE is like a  client-side CSRF token to prevent token hijack attacks.
   </p>
   <p>
     Since the code is synchronus and the context, <pre>this.ctx</pre> is asynchronus, I was not able to implement PKCE flow into the Azure Active Directory library. 
