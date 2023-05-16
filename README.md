@@ -19,7 +19,7 @@
     PKCE is client-side CSRF like token to prevent token hijack attacks.
   </p>
   <p>
-    Since the code is synchronus and the context, ```this.ctx``` is asynchronus, I was not able to implement PKCE flow into the Azure Active Directory library. 
+    Since the code is synchronus and the context, <pre>this.ctx</pre> is asynchronus, I was not able to implement PKCE flow into the Azure Active Directory library. 
   </p>
 </div>
 
