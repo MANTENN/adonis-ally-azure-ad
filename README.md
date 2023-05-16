@@ -21,6 +21,44 @@
   <p>
     Since the code is synchronus and the context, <pre>this.ctx</pre> is asynchronus, I was not able to implement PKCE flow into the Azure Active Directory library. 
   </p>
+  <p>As of know I the best route is to implement PKCE in the route handler. Ex:
+  <code>// 2. Get Profile`
+    Route.get('/azure-active-directory/callback', async ({ request, ally, response }) => {
+      const pkceTokenRequestSchema = schema.create({
+        code: schema.string(),
+        codeVerifier: schema.string(),
+        redirectUri: schema.string.optional(),
+      })
+      const { code, codeVerifier, redirectUri } = await request.validate({
+        schema: pkceTokenRequestSchema,
+      })
+
+      // need to grab token
+      const azureActiveDirectory = ally.use('activedirectory')
+
+      if (azureActiveDirectory.accessDenied()) {
+        return 'Access Denied'
+      }
+
+      if (azureActiveDirectory.stateMisMatch()) {
+        return 'Request expired. Try again.'
+      }
+
+      if (azureActiveDirectory.hasError()) {
+        return azureActiveDirectory.getError()
+      }
+
+      // need to automate the way user works to hook into and grab the PKCE info from the driver
+      const user = await azureActiveDirectory.user((request) => {
+        request.field('code', code)
+        request.field('code_verifier', codeVerifier)
+      })
+      // kinda useless because the data isn't forwarded
+      if (redirectUri) response.redirect(redirectUri)
+      return user
+      // no need to store user unless we plan on doing notifcations
+    })
+  </code>
 </div>
 
 <br />
