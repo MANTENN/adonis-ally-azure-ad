@@ -21,7 +21,7 @@
   <p>
     Since the code is synchronus and the context, <pre>this.ctx</pre> is asynchronus, I was not able to implement PKCE flow into the Azure Active Directory library. 
   </p>
-  <p>As of know I the best route is to implement PKCE in the route handler. Ex:
+  <p>As of now, the best way to handle PKCE is to grab them from the route handler and pass them through the callbacks Ex:
   <code align="left">
     // 2. Get Profile`
     Route.get('/azure-active-directory/callback', async ({ request, ally, response }) => {
